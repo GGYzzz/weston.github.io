@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Hexo</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2020-06-13T15:50:00.247Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>John Doe</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hello</title>
+    <link href="http://yoursite.com/2020/06/13/hello/"/>
+    <id>http://yoursite.com/2020/06/13/hello/</id>
+    <published>2020-06-13T15:36:47.938Z</published>
+    <updated>2020-06-13T15:50:00.247Z</updated>
+    
+    <content type="html"><![CDATA[<p>title: Hello<br />categories:</p><ul><li>Test<br />tags:</li><li>文章标签<br />toc: true # 是否启用内容索引</li></ul><p>HelloWorld！！！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;title: Hello&lt;br /&gt;
+categories:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Test&lt;br /&gt;
+tags:&lt;/li&gt;
+&lt;li&gt;文章标签&lt;br /&gt;
+toc: true # 是否启用内容索引&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;HelloWorld！！！&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
