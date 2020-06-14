@@ -2,9 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2020/06/13/hello/</loc>
+    <loc>https://weston-wey.github.io/%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%B5%8B%E8%AF%95/</loc>
     
-    <lastmod>2020-06-13T15:50:00.247Z</lastmod>
+    <lastmod>2020-06-14T05:43:34.183Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://weston-wey.github.io/use-hexo/</loc>
+    
+    <lastmod>2020-06-14T05:40:55.191Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://weston-wey.github.io/about/index.html</loc>
+    
+    <lastmod>2020-06-13T16:42:58.707Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://weston-wey.github.io/categories/index.html</loc>
+    
+    <lastmod>2020-06-13T16:42:51.591Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://weston-wey.github.io/tags/index.html</loc>
+    
+    <lastmod>2020-06-13T16:40:06.347Z</lastmod>
     
   </url>
   
