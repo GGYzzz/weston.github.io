@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://weston-wey.github.io/"/>
-  <updated>2020-06-14T07:35:48.044Z</updated>
+  <updated>2020-06-14T07:44:14.050Z</updated>
   <id>https://weston-wey.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>图片插入测试</title>
+    <link href="https://weston-wey.github.io/%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E6%B5%8B%E8%AF%95/"/>
+    <id>https://weston-wey.github.io/%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E6%B5%8B%E8%AF%95/</id>
+    <published>2020-06-14T07:42:15.000Z</published>
+    <updated>2020-06-14T07:44:14.050Z</updated>
+    
+    <content type="html"><![CDATA[<p>just test</p><a id="more"></a><p><img src="/.io//police.jpg" alt="H"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;just test&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>use hexo</title>
