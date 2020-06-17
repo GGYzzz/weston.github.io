@@ -17,20 +17,25 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>关于 | Weston</title>
-  <meta name="description" content="个人简介">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="https://weston-wey.github.io/about/index.html">
+  <title>Redis设计与实现读书笔记：数据结构与对象之简单动态字符串 | Weston</title>
+  <meta name="description" content="一、定义：简单动态字符串（simple dynamic string，SDS） redis没有使用 C语言提供的字符串类型，而是自定义了 sds的结构体： 12345678910struct sdshdr &amp;#123;    &#x2F;&#x2F; 记录 buf 数组中已使用字节的数量    &#x2F;&#x2F; 等于 SDS 所保存字符串的长度    int len;    &#x2F;&#x2F; 记录 buf 数组中未使用字节的数量    i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis设计与实现读书笔记：数据结构与对象之简单动态字符串">
+<meta property="og:url" content="https://weston-wey.github.io/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E4%B9%8B%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/index.html">
 <meta property="og:site_name" content="Weston&#39;s blog">
-<meta property="og:description" content="个人简介">
+<meta property="og:description" content="一、定义：简单动态字符串（simple dynamic string，SDS） redis没有使用 C语言提供的字符串类型，而是自定义了 sds的结构体： 12345678910struct sdshdr &amp;#123;    &#x2F;&#x2F; 记录 buf 数组中已使用字节的数量    &#x2F;&#x2F; 等于 SDS 所保存字符串的长度    int len;    &#x2F;&#x2F; 记录 buf 数组中未使用字节的数量    i">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-06-13T12:54:32.172Z">
-<meta property="article:modified_time" content="2020-06-13T12:54:32.172Z">
+<meta property="og:image" content="https://box.kancloud.cn/2015-09-13_55f50e14dc650.png">
+<meta property="og:image" content="https://box.kancloud.cn/2015-09-13_55f50e22eca8b.png">
+<meta property="article:published_time" content="2020-06-17T13:41:52.000Z">
+<meta property="article:modified_time" content="2020-06-17T15:00:27.303Z">
 <meta property="article:author" content="Weston">
+<meta property="article:tag" content="redis">
+<meta property="article:tag" content="读书笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://box.kancloud.cn/2015-09-13_55f50e14dc650.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://weston-wey.github.io/about/index.html">
+  <link rel="canonical" href="https://weston-wey.github.io/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E4%B9%8B%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Weston&#39;s blog" type="application/atom+xml">
   
@@ -311,111 +316,275 @@
 </aside>
 
   
-  <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
   <div class="slimContent">
-    
-    <div class="widget">
-      <h3 class="widget-title">个人链接</h3>
-      <div class="widget-body">
-        <ul class="link-list lh-2x">
-          
-          <li>
-            Github:
-            <a href="https://github.com/weston-wey" target="_blank">https://github.com/weston-wey</a>
-          </li>
-          
-          <li>
-            Blog:
-            <a href="https://weston-wey.github.io" target="_blank">https://weston-wey.github.io</a>
-          </li>
-          
-          <li>
-            微博:
-            <a href="https://www.weibo.com/u/5698552631" target="_blank">https://www.weibo.com/u/5698552631</a>
-          </li>
-          
-          <li>
-            facebook:
-            <a href="https://www.facebook.com/weston.wey" target="_blank">https://www.facebook.com/weston.wey</a>
-          </li>
-          
-        </ul>
-      </div>
-    </div>
-    
-    
-    <div class="widget">
-      <h3 class="widget-title">技能</h3>
-      <div class="widget-body">
-        <ul class="skill-list lh-2x">
-          
-          <li class="clearfix">
-            <span>Java</span>
-            <span class="pull-right">★★★★☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>python</span>
-            <span class="pull-right">★★★☆☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>Git</span>
-            <span class="pull-right">★★★☆☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>redis</span>
-            <span class="pull-right">★☆☆☆☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>MySQL</span>
-            <span class="pull-right">★★★★☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>Vue</span>
-            <span class="pull-right">☆☆☆☆☆</span>
-          </li>
-          
-        </ul>
-      </div>
-    </div>
-    
-    
-    <div class="widget">
-      <h3 class="widget-title">个人标签</h3>
-      <div class="widget-body">
-        
-        <span class="label label-default mb">后端开发</span>
-        
-        <span class="label label-default mb">算法</span>
-        
-        <span class="label label-default mb">Web前端</span>
-        
-      </div>
-    </div>
-    
-    
-    
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-定义简单动态字符串simple-dynamic-stringsds"><span class="toc-number">1.</span> <span class="toc-text"> 一、定义：简单动态字符串（simple dynamic string，SDS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-内存分配底层优化"><span class="toc-number">2.</span> <span class="toc-text"> 二、内存分配底层优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-sds相对于-c字符串的优势"><span class="toc-number">3.</span> <span class="toc-text"> 三、SDS相对于 C字符串的优势</span></a></li></ol>
+    </nav>
   </div>
 </aside>
-<main class="main" role="main">
-  <article class="article archives-about article-type-normal" itemscope="">
-  <header class="article-header">
-    <h1 itemprop="title">关于</h1>
-    
-    <p class="text-muted">个人简介</p>
-    
-  </header>
-  <div class="article-body">
-    <p>个人详细介绍</p>
 
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Redis设计与实现读书笔记：数据结构与对象之简单动态字符串" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redis设计与实现读书笔记：数据结构与对象之简单动态字符串
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E4%B9%8B%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="article-date">
+	  <time datetime="2020-06-17T13:41:52.000Z" itemprop="datePublished">2020-06-17</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">redis设计与实现读书笔记</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/redis/" rel="tag">redis</a>, <a class="article-tag-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E4%B9%8B%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 609(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="一-定义简单动态字符串simple-dynamic-stringsds"><a class="markdownIt-Anchor" href="#一-定义简单动态字符串simple-dynamic-stringsds"></a> 一、定义：简单动态字符串（simple dynamic string，SDS）</h3>
+<p>redis没有使用 C语言提供的字符串类型，而是自定义了 sds的结构体：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组中已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字节数组，用于保存字符串</span></span><br><span class="line">    <span class="keyword">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="二-内存分配底层优化"><a class="markdownIt-Anchor" href="#二-内存分配底层优化"></a> 二、内存分配底层优化</h3>
+<ul>
+<li>
+<p>C语言字符串的内存分配策略：事实分配与回收</p>
+<ol>
+<li>扩展：程序需要先通过内存重分配来扩展底层数组的空间大小 —— 如果忘了这一步就会产生 <strong>缓冲区溢出</strong></li>
+<li>缩减：程序需要通过内存重分配来释放字符串不再使用的那部分空间 —— 如果忘了这一步就会产生 <strong>内存泄漏</strong></li>
+</ol>
+</li>
+<li>
+<p>redis优化：</p>
+<ol>
+<li>扩展：<mark>空间预分配</mark>
+<ul>
+<li>如果扩展后，SDS长度 &lt; 1MB，则分配空间大小 = len + free(=len)【即：分配 2倍的空间】</li>
+<li>如果扩展后，SDS长度 &gt; 1MB，则分配空间大小= len + free(1MB)</li>
+</ul>
+</li>
+<li>缩减：<mark>惰性空间释放</mark>
+<ol>
+<li>不直接释放，而是将释放的空间作为未使用空间保存在 SDS中，下次需要时可以直接使用</li>
+<li>提供 API：sdsfree，来真正释放空间</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="三-sds相对于-c字符串的优势"><a class="markdownIt-Anchor" href="#三-sds相对于-c字符串的优势"></a> 三、SDS相对于 C字符串的优势</h3>
+<p>表：C 字符串和 SDS 之间的区别</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">C 字符串</th>
+<th style="text-align:left">SDS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">获取字符串长度的复杂度为 <img src="https://box.kancloud.cn/2015-09-13_55f50e14dc650.png" alt="O(N)"> 。</td>
+<td style="text-align:left">获取字符串长度的复杂度为 <img src="https://box.kancloud.cn/2015-09-13_55f50e22eca8b.png" alt="O(1)"> 。</td>
+</tr>
+<tr>
+<td style="text-align:left">API 是不安全的，可能会造成缓冲区溢出。</td>
+<td style="text-align:left">API 是安全的，不会造成缓冲区溢出。</td>
+</tr>
+<tr>
+<td style="text-align:left">修改字符串长度 <code>N</code> 次必然需要执行 <code>N</code> 次内存重分配。</td>
+<td style="text-align:left">修改字符串长度 <code>N</code> 次最多需要执行 <code>N</code> 次内存重分配。</td>
+</tr>
+<tr>
+<td style="text-align:left">只能保存文本数据。</td>
+<td style="text-align:left">可以保存文本或者二进制数据。</td>
+</tr>
+<tr>
+<td style="text-align:left">可以使用所有 `` 库中的函数。</td>
+<td style="text-align:left">可以使用一部分 `` 库中的函数。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>优势：
+<ol>
+<li>可以快速（O(1)）获取字符串长度</li>
+<li>不会造成缓冲区溢出：字符串赋值会先检查容量是否够用</li>
+<li>提高 修改字符串的效率：预分配 + 懒回收机制</li>
+<li>二进制安全：底层是字符数组，没有 '\0’的语义，所以可以存二进制数据而不会造成被 '\0’莫名截断的问题</li>
+<li>兼容 C的字符串函数</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://weston-wey.github.io/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E4%B9%8B%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="Redis设计与实现读书笔记：数据结构与对象之简单动态字符串" target="_blank" rel="external">https://weston-wey.github.io/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E4%B9%8B%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/weston-wey" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/weston-wey" target="_blank"><span class="text-dark">Weston</span><small class="ml-1x">追光者</small></a></h3>
+        <div>要么庸俗，要么孤独。</div>
+      </div>
+    </figure>
   </div>
-</article>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
 
   
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/6%E6%9C%8814-%E5%89%91%E6%8C%87offer%E4%BA%8C%E5%88%B7%E5%A4%8D%E4%B9%A0/" title="6月14 剑指offer二刷复习"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 </main>
@@ -478,6 +647,33 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '9a928c92ea1ed9da81ff',
+    clientSecret: 'ac89d4719e4940d253bc8cc7919704aa5312326e',
+    repo: 'weston-wey.github.io',
+    owner: 'weston-wey',
+    admin: ['weston-wey'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
 
 
 
